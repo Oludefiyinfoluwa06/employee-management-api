@@ -5,15 +5,9 @@ enum Gender {
   FEMALE = 'Female',
 }
 
-enum employeeType {
-  FULLTIME = 'full-time',
-  PARTTIME = 'part-time',
-  CONTRACTOR = 'contractor',
-  INTERN = 'intern',
-}
-
 export class PersonalInformationDto {
-  fullName: string;
+  firstName: string;
+  lastName: string;
 
   @IsEnum(Gender)
   gender: Gender;
@@ -25,33 +19,27 @@ export class PersonalInformationDto {
   @IsPhoneNumber()
   phoneNumber: string;
   dateOfBirth: Date;
+
+  @IsPhoneNumber()
+  emergencyPhoneNumber: string;
+  educationalLevel: string;
 }
 
 export class EmploymentInformationDto {
-  title: string;
-  department: string;
-  dateOfHire: Date;
-
-  @IsEnum(employeeType)
-  employmentType: string;
+  role: string;
+  employmentStartDate: Date;
 }
 
-export class EducationalInformation {
-  highestLevel: string;
-  nameOfInstitution: string;
-  degreeEarned: string;
-  fieldOfStudy: string;
-  graduationDate: Date;
+export class bankAccountInformationDto {
+  bankName: string;
+  bankAccountNumber: string;
+  accountName: string;
 }
 
-export class EmergencyContactInformation {
+export class NextOfKinInformationDto {
   fullName: string;
-  physicalAddress: string;
-
-  @IsEmail()
-  emailAddress: string;
 
   @IsPhoneNumber()
   phoneNumber: string;
-  relationship: Date;
+  relationship: string;
 }

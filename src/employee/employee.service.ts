@@ -28,13 +28,7 @@ export class EmployeeService {
     return await this.employeeModel.create(createEmployeeDto);
   }
 
-  async findAll(
-    employeeType?: 'full-time' | 'part-time' | 'contractor' | 'intern',
-  ) {
-    if (employeeType) {
-      return await this.employeeModel.find({ employeeType });
-    }
-
+  async findAll() {
     return await this.employeeModel.find();
   }
 
