@@ -4,25 +4,25 @@ import { AppService } from './app.service';
 import { EmployeeModule } from './employee/employee.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import databaseConfig, { CONFIG_DATABASE } from './config/database.config';
+import { config } from './config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [databaseConfig],
+      load: [config],
       envFilePath: '.env',
       isGlobal: true,
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => {
-        return {
-          uri: configService.get(CONFIG_DATABASE).ems.uri,
-        };
-      },
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('db.uri'),
+      }),
       inject: [ConfigService],
     }),
     EmployeeModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

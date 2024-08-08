@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import {
-  EducationalInformation,
-  EmergencyContactInformation,
+  bankAccountInformationDto,
   EmploymentInformationDto,
+  NextOfKinInformationDto,
   PersonalInformationDto,
 } from '../dto/employee-information.dto';
 
@@ -18,10 +18,10 @@ export class Employee {
   employment_information: EmploymentInformationDto;
 
   @Prop({ type: Object, required: true })
-  educational_information: EducationalInformation;
+  bank_account_information: bankAccountInformationDto;
 
   @Prop({ type: Object, required: true })
-  emergency_contact_information: EmergencyContactInformation;
+  next_of_kin_information: NextOfKinInformationDto;
 }
 
 export const EmployeeSchema = SchemaFactory.createForClass(Employee);
