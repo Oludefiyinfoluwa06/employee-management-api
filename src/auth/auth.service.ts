@@ -4,55 +4,63 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { EmployerDto } from './dto/employer.dto';
-import { Model } from 'mongoose';
-import { InjectModel } from '@nestjs/mongoose';
-import { Employer } from './schema/employer.schema';
+import { EmployerDto } from '../employer/dto/employer.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { AccessToken } from 'src/types';
+import { EmployerService } from 'src/employer/employer.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectModel(Employer.name) private readonly employerModel: Model<Employer>,
+    private readonly employerService: EmployerService,
     private jwtService: JwtService,
   ) {}
-  async register(employerDto: EmployerDto): Promise<AccessToken> {
-    const existingEmployer = await this.employerModel.findOne({
-      email: employerDto.email,
-    });
 
-    if (existingEmployer) {
-      throw new ConflictException('Employer already exists');
+  async validateEmployer(email: string, employerPassword: string) {
+    const employer = await this.employerService.findEmployer(email);
+
+    if (!employer) {
+      throw new NotFoundException('Employer not found');
+    }
+
+    const isMatch: boolean = await bcrypt.compare(
+      employerPassword,
+      employer.password,
+    );
+
+    if (!isMatch) {
+      throw new UnauthorizedException('Password does not match');
+    }
+
+    const { password, ...result } = employer;
+    return result;
+  }
+
+  async register(employerDto: EmployerDto): Promise<AccessToken> {
+    const employer = await this.employerService.findEmployer(employerDto.email);
+
+    if (employer) {
+      throw new ConflictException('Employer exists already');
     }
 
     const salt: string = await bcrypt.genSalt();
-    const hash: string = await bcrypt.hash(employerDto.password, salt);
-    await this.employerModel.create({
-      ...employerDto,
-      password: hash,
-    });
+    const hashedPassword: string = await bcrypt.hash(
+      employerDto.password,
+      salt,
+    );
+
+    await this.employerService.registerEmployer(
+      employerDto.email,
+      hashedPassword,
+    );
+
     return this.login(employerDto);
   }
 
   async login(employerDto: EmployerDto): Promise<AccessToken> {
-    const employer = await this.employerModel.findOne({
-      email: employerDto.email,
-    });
+    const payload = { email: employerDto.email };
 
-    if (!employer) {
-      throw new NotFoundException('Email does not exist');
-    }
-
-    const match = await bcrypt.compare(employerDto.password, employer.password);
-
-    if (!match) {
-      throw new UnauthorizedException('Incorrect password');
-    }
-
-    const payload = { id: employer._id };
-
-    return { access_token: await this.jwtService.sign(payload) };
+    return { accessToken: await this.jwtService.signAsync(payload) };
   }
 }
