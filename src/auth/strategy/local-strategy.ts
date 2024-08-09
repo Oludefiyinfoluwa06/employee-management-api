@@ -7,7 +7,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private authService: AuthService) {
     super({
-      email: 'email',
+      usernameField: 'email',
     });
   }
 
