@@ -12,16 +12,16 @@ export type EmployeeDocument = HydratedDocument<Employee>;
 @Schema()
 export class Employee {
   @Prop({ type: Object, required: true })
-  personal_information: PersonalInformationDto;
+  personalInformation: PersonalInformationDto;
 
   @Prop({ type: Object, required: true })
-  employment_information: EmploymentInformationDto;
+  employmentInformation: EmploymentInformationDto;
 
   @Prop({ type: Object, required: true })
-  bank_account_information: bankAccountInformationDto;
+  bankAccountInformation: bankAccountInformationDto;
 
   @Prop({ type: Object, required: true })
-  next_of_kin_information: NextOfKinInformationDto;
+  nextOfKinInformation: NextOfKinInformationDto;
 }
 
 export const EmployeeSchema = SchemaFactory.createForClass(Employee);

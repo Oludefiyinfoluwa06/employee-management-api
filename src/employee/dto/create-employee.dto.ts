@@ -10,17 +10,17 @@ import {
 export class CreateEmployeeDto {
   @ValidateNested()
   @Type(() => PersonalInformationDto)
-  personal_information: PersonalInformationDto;
+  personalInformation: PersonalInformationDto;
 
   @ValidateNested()
   @Type(() => EmploymentInformationDto)
-  employment_information: EmploymentInformationDto;
+  employmentInformation: EmploymentInformationDto;
 
   @ValidateNested()
   @Type(() => bankAccountInformationDto)
-  bank_account_information: bankAccountInformationDto;
+  bankAccountInformation: bankAccountInformationDto;
 
   @ValidateNested()
   @Type(() => NextOfKinInformationDto)
-  next_of_kin_information: NextOfKinInformationDto;
+  nextOfKinInformation: NextOfKinInformationDto;
 }

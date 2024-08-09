@@ -8,6 +8,8 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Employee } from './schema/employee.schema';
 import { Model } from 'mongoose';
+import { PaginationDto } from './dto/pagination.dto';
+import { DEFAULT_PAGE_SIZE } from 'src/utils/constants';
 
 @Injectable()
 export class EmployeeService {
@@ -17,8 +19,8 @@ export class EmployeeService {
 
   async create(createEmployeeDto: CreateEmployeeDto) {
     const existingEmployee = await this.employeeModel.findOne({
-      'personal_information.emailAddress':
-        createEmployeeDto.personal_information.emailAddress,
+      'personalInformation.emailAddress':
+        createEmployeeDto.personalInformation.emailAddress,
     });
 
     if (existingEmployee) {
@@ -28,8 +30,11 @@ export class EmployeeService {
     return await this.employeeModel.create(createEmployeeDto);
   }
 
-  async findAll() {
-    return await this.employeeModel.find();
+  async findAll(paginationDto: PaginationDto) {
+    return await this.employeeModel.find({
+      skip: paginationDto.skip,
+      take: paginationDto.limit ?? DEFAULT_PAGE_SIZE,
+    });
   }
 
   async findOne(id: string) {

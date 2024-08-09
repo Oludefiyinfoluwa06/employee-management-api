@@ -7,11 +7,13 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { EmployeeService } from './employee.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { JwtGuard } from 'src/auth/guard/jwt-auth.guard';
+import { PaginationDto } from './dto/pagination.dto';
 
 @Controller('employees')
 export class EmployeeController {
@@ -25,8 +27,8 @@ export class EmployeeController {
 
   @UseGuards(JwtGuard)
   @Get()
-  getEmployees() {
-    return this.employeeService.findAll();
+  getEmployees(@Query() paginationDto: PaginationDto) {
+    return this.employeeService.findAll(paginationDto);
   }
 
   @UseGuards(JwtGuard)
