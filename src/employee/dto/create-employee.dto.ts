@@ -1,7 +1,7 @@
 import { ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import {
-  bankAccountInformationDto,
+  BankAccountInformationDto,
   EmploymentInformationDto,
   NextOfKinInformationDto,
   PersonalInformationDto,
@@ -17,8 +17,8 @@ export class CreateEmployeeDto {
   employmentInformation: EmploymentInformationDto;
 
   @ValidateNested()
-  @Type(() => bankAccountInformationDto)
-  bankAccountInformation: bankAccountInformationDto;
+  @Type(() => BankAccountInformationDto)
+  bankAccountInformation: BankAccountInformationDto;
 
   @ValidateNested()
   @Type(() => NextOfKinInformationDto)

@@ -1,8 +1,8 @@
 import { IsEmail, IsEnum, IsPhoneNumber } from 'class-validator';
 
 enum Gender {
-  MALE = 'Male',
-  FEMALE = 'Female',
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
 }
 
 export class PersonalInformationDto {
@@ -30,7 +30,7 @@ export class EmploymentInformationDto {
   employmentStartDate: Date;
 }
 
-export class bankAccountInformationDto {
+export class BankAccountInformationDto {
   bankName: string;
   bankAccountNumber: string;
   accountName: string;
