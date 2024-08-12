@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { EmployerDto } from '../employer/dto/employer.dto';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { AccessToken } from 'src/types';
 import { EmployerService } from 'src/employer/employer.service';
