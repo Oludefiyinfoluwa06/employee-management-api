@@ -53,6 +53,10 @@ export class EmployeeService {
   }
 
   async update(id: string, updateEmployeeDto: UpdateEmployeeDto) {
+    const employee = await this.employeeModel.findById(id);
+
+    if (!employee) throw new NotFoundException('Employee not found');
+
     return await this.employeeModel.findByIdAndUpdate(id, updateEmployeeDto, {
       new: true,
     });
