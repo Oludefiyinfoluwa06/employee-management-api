@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import {
-  bankAccountInformationDto,
+  BankAccountInformationDto,
   EmploymentInformationDto,
   NextOfKinInformationDto,
   PersonalInformationDto,
@@ -18,7 +18,7 @@ export class Employee {
   employmentInformation: EmploymentInformationDto;
 
   @Prop({ type: Object, required: true })
-  bankAccountInformation: bankAccountInformationDto;
+  bankAccountInformation: BankAccountInformationDto;
 
   @Prop({ type: Object, required: true })
   nextOfKinInformation: NextOfKinInformationDto;
