@@ -9,7 +9,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Employee } from './schema/employee.schema';
 import { Model } from 'mongoose';
 import { PaginationDto } from './dto/pagination.dto';
-import { DEFAULT_PAGE_SIZE } from 'src/utils/constants';
+import { constants } from '../utils/constants';
 
 @Injectable()
 export class EmployeeService {
@@ -31,10 +31,17 @@ export class EmployeeService {
   }
 
   async findAll(paginationDto: PaginationDto) {
-    return await this.employeeModel.find({
-      skip: paginationDto.skip,
-      take: paginationDto.limit ?? DEFAULT_PAGE_SIZE,
-    });
+    const skip = paginationDto.skip
+      ? Number(paginationDto.skip)
+      : constants.DEFAULT_SKIP_NUMBER;
+    const limit = paginationDto.limit
+      ? Number(paginationDto.limit)
+      : constants.DEFAULT_PAGE_SIZE;
+
+    return await this.employeeModel
+      .find()
+      .skip((skip - 1) * limit)
+      .limit(limit);
   }
 
   async findOne(id: string) {
