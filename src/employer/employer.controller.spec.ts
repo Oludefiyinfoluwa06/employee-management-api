@@ -5,11 +5,16 @@ import { EmployerService } from './employer.service';
 describe('EmployerController', () => {
   let controller: EmployerController;
 
+  const mockEmployerService = {};
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [EmployerController],
       providers: [EmployerService],
-    }).compile();
+    })
+      .overrideProvider(EmployerService)
+      .useValue(mockEmployerService)
+      .compile();
 
     controller = module.get<EmployerController>(EmployerController);
   });
