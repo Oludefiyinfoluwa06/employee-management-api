@@ -4,11 +4,11 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { EmployerDto } from '../employer/dto/employer.dto';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-import { AccessToken } from 'src/types';
-import { EmployerService } from 'src/employer/employer.service';
+import { AccessToken } from './../types/index';
+import { EmployerDto } from '../employer/dto/employer.dto';
+import { EmployerService } from './../employer/employer.service';
 
 @Injectable()
 export class AuthService {

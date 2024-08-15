@@ -8,8 +8,8 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  register(@Body() employerDto: EmployerDto) {
-    return this.authService.register(employerDto);
+  async register(@Body() employerDto: EmployerDto) {
+    return await this.authService.register(employerDto);
   }
 
   @UseGuards(LocalAuthGuard)
