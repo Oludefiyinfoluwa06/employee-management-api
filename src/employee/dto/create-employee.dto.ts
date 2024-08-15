@@ -1,26 +1,62 @@
-import { ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
 import {
-  BankAccountInformationDto,
-  EmploymentInformationDto,
-  NextOfKinInformationDto,
-  PersonalInformationDto,
-} from './employee-information.dto';
+  IsDate,
+  IsEmail,
+  IsEnum,
+  IsNumber,
+  IsPhoneNumber,
+  IsString,
+} from 'class-validator';
+import { Gender } from './../../utils/constants';
 
 export class CreateEmployeeDto {
-  @ValidateNested()
-  @Type(() => PersonalInformationDto)
-  personalInformation: PersonalInformationDto;
+  @IsString()
+  firstName: string;
 
-  @ValidateNested()
-  @Type(() => EmploymentInformationDto)
-  employmentInformation: EmploymentInformationDto;
+  @IsString()
+  lastName: string;
 
-  @ValidateNested()
-  @Type(() => BankAccountInformationDto)
-  bankAccountInformation: BankAccountInformationDto;
+  @IsEnum(Gender)
+  gender: Gender;
 
-  @ValidateNested()
-  @Type(() => NextOfKinInformationDto)
-  nextOfKinInformation: NextOfKinInformationDto;
+  @IsString()
+  physicalAddress: string;
+
+  @IsEmail()
+  emailAddress: string;
+
+  @IsPhoneNumber()
+  phoneNumber: string;
+
+  @IsDate()
+  dateOfBirth: Date;
+
+  @IsPhoneNumber()
+  emergencyPhoneNumber: string;
+
+  @IsString()
+  educationalLevel: string;
+
+  @IsString()
+  employmentRole: string;
+
+  @IsDate()
+  employmentStartDate: Date;
+
+  @IsString()
+  bankName: string;
+
+  @IsNumber()
+  bankAccountNumber: string;
+
+  @IsString()
+  accountName: string;
+
+  @IsString()
+  nextOfKinFullName: string;
+
+  @IsPhoneNumber()
+  nextOfKinPhoneNumber: string;
+
+  @IsString()
+  nextOfKinRelationship: string;
 }
