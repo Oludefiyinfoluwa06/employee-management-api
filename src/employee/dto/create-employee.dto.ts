@@ -6,6 +6,7 @@ import {
   IsPhoneNumber,
   IsString,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 import { Gender } from './../../utils/constants';
 
 export class CreateEmployeeDto {
@@ -28,6 +29,7 @@ export class CreateEmployeeDto {
   phoneNumber: string;
 
   @IsDate()
+  @Type(() => Date)
   dateOfBirth: Date;
 
   @IsPhoneNumber()
@@ -40,6 +42,7 @@ export class CreateEmployeeDto {
   employmentRole: string;
 
   @IsDate()
+  @Type(() => Date)
   employmentStartDate: Date;
 
   @IsString()
