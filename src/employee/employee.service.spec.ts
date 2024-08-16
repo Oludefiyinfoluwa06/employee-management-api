@@ -37,8 +37,7 @@ describe('EmployeeService', () => {
     findOne: jest.fn(),
     find: jest.fn().mockReturnThis(),
     skip: jest.fn().mockReturnThis(),
-    limit: jest.fn().mockReturnThis(),
-    exec: jest.fn().mockResolvedValue([mockEmployee]),
+    limit: jest.fn().mockReturnValue([mockEmployee]),
     findById: jest.fn(),
     findByIdAndUpdate: jest.fn().mockResolvedValue(mockEmployee),
     findByIdAndDelete: jest.fn().mockResolvedValue(mockEmployee),
@@ -122,9 +121,6 @@ describe('EmployeeService', () => {
 
   describe('findAll', () => {
     it('should return an array of employees', async () => {
-      mockEmployeeModel.find.mockReturnValue([mockEmployee]);
-      mockEmployeeModel.exec.mockResolvedValue([mockEmployee]);
-
       const paginationDto = { skip: 1, limit: 10 };
       const result = await service.findAll(paginationDto);
 
@@ -132,7 +128,6 @@ describe('EmployeeService', () => {
       expect(mockEmployeeModel.find).toHaveBeenCalled();
       expect(mockEmployeeModel.skip).toHaveBeenCalledWith((1 - 1) * 10);
       expect(mockEmployeeModel.limit).toHaveBeenCalledWith(10);
-      expect(mockEmployeeModel.exec).toHaveBeenCalled();
     });
   });
 
