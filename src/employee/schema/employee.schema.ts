@@ -43,7 +43,7 @@ export class Employee {
   bankName: string;
 
   @Prop({ required: true })
-  bankAccountNumber: string;
+  bankAccountNumber: number;
 
   @Prop({ required: true })
   accountName: string;
