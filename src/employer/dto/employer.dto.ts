@@ -1,6 +1,9 @@
-import { IsEmail, MinLength } from 'class-validator';
+import { IsEmail, IsOptional, MinLength } from 'class-validator';
 
 export class EmployerDto {
+  @IsOptional()
+  _id: string;
+
   @IsEmail()
   email: string;
 

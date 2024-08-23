@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-import { AccessToken } from './../types/index';
+import { AuthResponse } from './../types/index';
 import { EmployerDto } from '../employer/dto/employer.dto';
 import { EmployerService } from './../employer/employer.service';
 
@@ -37,7 +37,7 @@ export class AuthService {
     return result;
   }
 
-  async register(employerDto: EmployerDto): Promise<AccessToken> {
+  async register(employerDto: EmployerDto): Promise<AuthResponse> {
     const employer = await this.employerService.findEmployer(employerDto.email);
 
     if (employer) {
@@ -50,17 +50,31 @@ export class AuthService {
       salt,
     );
 
-    await this.employerService.registerEmployer(
+    const employerInformation = await this.employerService.registerEmployer(
       employerDto.email,
       hashedPassword,
     );
 
-    return this.login(employerDto);
+    const payload = { id: employerInformation._id, email: employerDto.email };
+
+    return {
+      _id: employerInformation._id,
+      email: employerInformation.email,
+      message: 'Registration successful',
+      accessToken: await this.jwtService.signAsync(payload),
+    };
   }
 
-  async login(employerDto: EmployerDto): Promise<AccessToken> {
-    const payload = { email: employerDto.email };
+  async login(employerDto: EmployerDto): Promise<AuthResponse> {
+    const employer = await this.employerService.findEmployer(employerDto.email);
 
-    return { accessToken: await this.jwtService.signAsync(payload) };
+    const payload = { id: employer._id, email: employerDto.email };
+
+    return {
+      _id: employer._id,
+      email: employer.email,
+      message: 'Login successful',
+      accessToken: await this.jwtService.signAsync(payload),
+    };
   }
 }
