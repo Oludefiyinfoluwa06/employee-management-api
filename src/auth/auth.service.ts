@@ -58,7 +58,7 @@ export class AuthService {
     const payload = { id: employerInformation._id, email: employerDto.email };
 
     return {
-      _id: employerInformation._id,
+      _id: employerInformation._id.toString(),
       email: employerInformation.email,
       message: 'Registration successful',
       accessToken: await this.jwtService.signAsync(payload),
@@ -71,7 +71,7 @@ export class AuthService {
     const payload = { id: employer._id, email: employerDto.email };
 
     return {
-      _id: employer._id,
+      _id: employer._id.toString(),
       email: employer.email,
       message: 'Login successful',
       accessToken: await this.jwtService.signAsync(payload),
